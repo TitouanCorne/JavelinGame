@@ -9,6 +9,7 @@ function lancer_Manydices(remainingDices){
         L.push([lancer_OneDice(), false])
     return L 
     }
+}
     
 function relancer(tableau){
     for(var i = 0; i < nb_des; i++){
