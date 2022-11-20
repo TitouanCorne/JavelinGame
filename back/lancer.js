@@ -5,7 +5,14 @@ function lancer_OneDice(){
 
 tableau = [[lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false]]
 
-function lancer_ManyDices(tableau){
+function lancer_Manydices(remainingDices){
+    L = []
+    for(var i = 0; i < remainingDices; i++){
+        L.push(lancer_OneDice())
+    return L 
+    }
+    
+function relancer(tableau){
     for(var i = 0; i < nb_des; i++){
         if(tableau[i][1] = false){
             tableau[i][0] = lancer_OneDice();
@@ -33,6 +40,7 @@ module.exports = {
     res_dices: lancer_ManyDices,
     freeze : gelerunde,
     score : somme,
+    relancer : relancer
 }
 
 
