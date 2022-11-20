@@ -3,39 +3,20 @@ function lancer_OneDice(){
     return dice
 }
 
-function lancer_ManyDices(n){
-    var L = []
-    for (let i=0; i < n; i++){
-        L.push(lancer_OneDice())
-    }
-    return L 
-}
+tableau = [[lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false]]
 
-//firstTry = lancer_ManyDices(6) //premier lancer de dés
-//console.log(firstTry)
-
-module.exports = {
-    res_dices: lancer_ManyDices,
-}
-
-function lancerde() {
-    return Math.floor(Math.random() * 6 + 1); 
-  }
-
-tableau = [[lancerde(), false], [lancerde(), false], [lancerde(), false], [lancerde(), false], [lancerde(), false], [lancerde(), false]]
-
-function gelerunde(tableau, index){
-    if (tableau[index-1][0] % 2 == 0) {
-    	tableau[index-1][1] = true;
+function lancer_ManyDices(tableau){
+    for(var i = 0; i < nb_des; i++){
+        if(tableau[i][1] = false){
+            tableau[i][0] = lancer_OneDice();
+        }
     }
     return tableau
 }
 
-function relancer(tableau) {
-    for(var i = 0; i < nb_des; i++){
-        if(tableau[i][1] = false){
-            tableau[i][0] = lancer();
-        }
+function gelerunde(tableau, index){
+    if (tableau[index-1][0] % 2 == 0) {
+    	tableau[index-1][1] = true;
     }
     return tableau
 }
@@ -47,4 +28,11 @@ function somme(tableau){
     }
     return S
 }
+
+module.exports = {
+    res_dices: lancer_ManyDices,
+    freeze : gelerunde,
+    score : somme,
+}
+
 
