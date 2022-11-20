@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 app.get(encodeURI('/remainingDices'), (req, res) => {
     console.log(req.query)
     remainingDices = req.query["valeur"]
-    res_dices = lancer.lancer_ManyDices(remainingDices)
+    res_dices = lancer.res_dices(remainingDices)
     res.json({
         remainingDices: remainingDices,
         res_dices: res_dices,
