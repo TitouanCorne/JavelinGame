@@ -3,7 +3,7 @@ function lancer_OneDice(){
     return dice
 }
 
-tableau = [[lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false], [lancer_OneDice(), false]]
+tableau = [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false]]
 
 function lancer_Manydices(remainingDices){
     L = []
