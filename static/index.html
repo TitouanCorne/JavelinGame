@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      <link rel="stylesheet" href="main.css" />
+      <title>JavelinGame</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="main">
+            <header class="h1 text-center">Lancer de Javelot</header>
+            
+            <!-- Accordéon pour les règles du jeu : -->
+            <div class="accordion accordion-flush" id="Deroulant_Regles">
+                <div class="accordion-item" theme-colors="Primary">
+                    <h2 class="accordion-header" id="rules">
+                        <button class="accordion-button collapsed text-bg-primary p-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Règles du jeu
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse text-bg-info p-3" aria-labelledby="rules" data-bs-parent="#Deroulant_Regles">
+                        <div class="accordion-body">
+                            Commencez par lancer les 6 dés. Écartez alors au moins un dé. Si vous le désirez, relancez tous les autres. Vous
+                            pouvez réitérer l’opération plusieurs fois, à la condition de toujours écarter au moins un dé à chaque coup. Mais
+                            attention : seuls les dés de valeur impaire peuvent être écartés. Essayez de conserver ainsi les dés de valeur
+                            élevée.
+                            À tout moment, vous pouvez décider d’interrompre vos lancers et de conclure là votre tentative. Par ailleurs une
+                            tentative s’achève automatiquement quand les six dés se trouvent écartés.
+                            Si, après un lancer, vous n’êtes plus en mesure d’écarter un nouveau dé parce que tous montrent une valeur paire,
+                            votre tentative se solde par un échec
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Demander le nom du joueur : -->
+            <div class="row">
+                <div class="col-md-8">
+                    <input class="form-control form-control-lg" type="text" id="nom_joueur" placeholder="Nom du joueur">
+                </div>
+                <div class="col-md-4 text-center">
+                    <input type="button" value="Valider" class="btn btn-primary" id="btn_lancement">
+                </div>
+                <p id="affiche_nom_joueur" class="col-md-4"> </p> <!--contiendra le nom du joueur -->
+                <p id="affiche_resultat" class="col-md-4"></p> <!--contiendra le résultat du joueur -->
+                <p id="affiche_remainingDices" class="col-md-2"> </p>
+                <p id="remainingDices" class="col-md-2"></p> 
+            </div>
+            
+    
+        </div>
+
+    </div>
+    <button class="btn btn-primary" id="play">Lancer les dés !</button>
+    <div id="dices_result" class="container">
+        <div id="dices">
+            <div class="row">
+                <div class="col-md" id="dice1">Dé n°1
+                    <div id="res1"></div>
+                    <button class="btn btn-primary" id="choose1">Garder ce dé</button>
+                </div>
+                <div class="col-md" id="dice2">Dé n°2
+                    <div id="res2"></div>
+                    <button class="btn btn-primary" id="choose2">Garder ce dé</button>
+                </div>
+                <div class="col-md" id="dice3">Dé n°3
+                    <div id="res3"></div>
+                    <button class="btn btn-primary" id="choose3">Garder ce dé</button>
+                </div>
+                <div class="col-md" id="dice4">Dé n°4
+                    <div id="res4"></div>
+                    <button class="btn btn-primary" id="choose4">Garder ce dé</button> 
+                </div>
+                <div class="col-md" id="dice5">Dé n°5
+                    <div id="res5"></div>
+                    <button class="btn btn-primary" id="choose5">Garder ce dé</button> 
+                </div>
+                <div class="col-md" id="dice6">Dé n°6
+                    <div id="res6"></div>
+                    <button class="btn btn-primary" id="choose6">Garder ce dé</button> 
+                </div>
+        </div>
+    </div>
+    
+        
+    <script>
+        var dices = [] //contiendra le résultat de chaque lancer de dé
+        var remainingDices = 6
+
+        function affichage(dices){
+            document.querySelector("#res1").textContent = dices[0];
+            document.querySelector("#res2").textContent = dices[1];
+            document.querySelector("#res3").textContent = dices[2];
+            document.querySelector("#res4").textContent = dices[3];
+            document.querySelector("#res5").textContent = dices[4];
+            document.querySelector("#res6").textContent = dices[5];
+        };
+
+
+
+        //affichage du nom du joueur
+
+        document.querySelector("#btn_lancement").addEventListener("click", (event) => {
+            if(nom_joueur.value != ""){
+                document.getElementById("affiche_nom_joueur").textContent = "Nom du joueur : " + nom_joueur.value
+                document.getElementById("affiche_resultat").textContent = "Résultat en cours : "
+                document.getElementById("affiche_remainingDices").textContent =  "dé(s) restant(s) : ";
+                document.getElementById("remainingDices").textContent =  "6";
+                //FAIRE APPARAITRE LE BOUTON "LANCER LES DES !"
+            }
+            else{
+                alert("Veuillez renseigner votre nom")
+            }
+        })
+
+        document.querySelector("#play").addEventListener("click", (event) =>{
+                nombre_dé_à_lancer = remainingDices.toString()
+                // console.log(nombre_dé_à_lancer)
+                // console.log(remainingDices)
+                if (remainingDices != 0) {  //si il y a encore des dés à lancer
+                    fetch('/remainingDices/?valeur=' + nombre_dé_à_lancer)
+                        .then(response => response.json())
+                        .then(data => {
+                            dices = data.res_dices
+                            console.log(data)
+                        })
+                } 
+                // else {
+                //     document.querySelector("#chiffre").textContent = "?"
+                // }
+
+            })
+                // if (remainingDices) {
+                //     fetch('/remainingDices/?valeur=' + remainingDices)
+                //         .then(response => response.json())
+                //         .then(data => {
+                //             dices = data.remainingDices
+                //             affichage(dices)
+                //             console.log(data)
+                //         })
+                // } 
+                // else {
+                //     document.querySelector("#chiffre").textContent = "?"
+                // }
+            
+
+        // lancement de la partie
+        // document.querySelector("#play").addEventListener("click", (event) => {
+        //         dices = lancer_ManyDices(6);  
+        //     })
+        
+
+        
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+  </body>
+</html>
