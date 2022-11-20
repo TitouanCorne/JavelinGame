@@ -3,7 +3,7 @@ function lancer_OneDice(){
     return dice
 }
 
-function lancer_Manydices(remainingDices){
+function lancer_ManyDices(remainingDices){
     L = []
     for(var i = 0; i < remainingDices; i++){
         L.push([lancer_OneDice(), false])
