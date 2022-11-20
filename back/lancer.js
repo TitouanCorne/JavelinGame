@@ -3,12 +3,10 @@ function lancer_OneDice(){
     return dice
 }
 
-tableau = [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false]]
-
 function lancer_Manydices(remainingDices){
     L = []
     for(var i = 0; i < remainingDices; i++){
-        L.push(lancer_OneDice())
+        L.push([lancer_OneDice(), false])
     return L 
     }
     
